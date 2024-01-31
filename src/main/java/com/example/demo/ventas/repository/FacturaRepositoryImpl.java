@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.ventas.repository.modelo.Factura;
+import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 @Repository
@@ -178,6 +180,65 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		//cuanto tengo varias consultas y muchos select's
 		String jpql="SELECT f FROM Factura f JOIN FETCH f.detalleFacturas d ";
 		TypedQuery<Factura> myQuery= this.entityManager.createQuery(jpql,Factura.class);
+		
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public void actualizar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.entityManager.merge(factura);
+		
+	}
+
+	@Override
+	public int actualizarFechas(LocalDateTime fechaNueva, LocalDateTime fechaActual) {
+		// TODO Auto-generated method stub
+		//sql update factura set fact_fecha=:fechaNueva Where fact_fecha >= fechaActual
+		String jpql="UPDATE Factura f SET f.fecha = :fechaNueva WHERE f.fecha >= :fechaActual";
+		//para actualizar obligado por un Query
+		
+		Query myQuery = this.entityManager.createQuery(jpql);
+		myQuery.setParameter("fechaNueva", fechaNueva);
+		myQuery.setParameter("fechaActual", fechaActual);
+		
+		return myQuery.executeUpdate();
+		
+		
+		
+	}
+
+	@Override
+	public Factura buscar(Integer id) {
+		// TODO Auto-generated method stub
+		return this.entityManager.find(Factura.class, id);
+	}
+
+	@Override
+	public void eliminar(Integer id) {
+		// TODO Auto-generated method stub
+		this.entityManager.remove(this.buscar(id));
+	}
+
+	@Override
+	public int eliminarPorNumero(String numero) {
+		// TODO Auto-generated method stub
+		//DELETE FROM factura Where fact_numero =:numero
+		String jpql="DELETE FROM Factura f WHERE f.numero = :numero";
+		//query para eliminar
+		Query myQuery = this.entityManager.createQuery(jpql);
+		myQuery.setParameter("numero", numero);
+		
+		return myQuery.executeUpdate();
+		
+	}
+
+	@Override
+	public List<FacturaDTO> seleccionarFacturasDTO() {
+		// TODO Auto-generated method stub
+		String jpql="SELECT NEW com.example.demo.ventas.repository.modelo.dto.FacturaDTO(f.numero,f.fecha) FROM Factura f";
+		TypedQuery<FacturaDTO> myQuery = this.entityManager.createQuery(jpql,FacturaDTO.class);
+		
 		
 		return myQuery.getResultList();
 	}

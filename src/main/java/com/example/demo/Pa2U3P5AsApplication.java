@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.demo.ventas.repository.modelo.DetalleFactura;
 import com.example.demo.ventas.repository.modelo.Factura;
+import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
 import com.example.demo.ventas.service.IFacturaService;
 
 @SpringBootApplication
@@ -26,29 +27,28 @@ public class Pa2U3P5AsApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-
-		System.out.println("JOIN WHERE");
+/*
+		int cantidad =this.facturaService.actualizarFechas(
+				LocalDateTime.of(2020, 1, 15, 12, 50),
+				LocalDateTime.of(2024, 1, 25, 23, 59)
+				);
+		System.out.println("Cantidad de registros/filas actulizados: "+cantidad);
+		*/
+	/*	
+		int cantidad =this.facturaService.eliminarPorNumero("0001-02571");
+		System.out.println("Cantidad de registros/filas actulizados: "+cantidad);
+*/
 		
-		List<Factura> lista = this.facturaService.buscarFacturaWhereJoin();
-		for (Factura factura : lista) {
-			System.out.println(factura.getNumero());
-			for (DetalleFactura df : factura.getDetalleFacturas()) {
-				System.out.println(df.getNombreProducto());
-			}
+		System.out.println("DTO");
+		List<FacturaDTO> list = this.facturaService.buscarFacturasDTO();
+		for (FacturaDTO facturaDTO : list) {
+			System.out.println(facturaDTO);
 		}
 		
-System.out.println("JOIN FETCH ");
 		
-		List<Factura> lista2 = this.facturaService.buscarFacturasFetchJoin();
-		for (Factura factura2 : lista2) {
-			System.out.println(factura2.getNumero());
-			for (DetalleFactura d : factura2.getDetalleFacturas()) {
-				System.out.println(d.getNombreProducto());
-				
-			}
-		}
 		
-
+		
+		
 	}
 
 }

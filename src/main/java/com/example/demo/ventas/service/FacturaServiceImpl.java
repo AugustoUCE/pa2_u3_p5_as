@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.ventas.repository.IFacturaRepository;
 import com.example.demo.ventas.repository.modelo.Factura;
+import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
 
 @Service
 public class FacturaServiceImpl implements IFacturaService {
@@ -79,5 +80,31 @@ public class FacturaServiceImpl implements IFacturaService {
 		// TODO Auto-generated method stub
 		return this.facturaRepository.seleccionarFacturasFetchJoin();
 	}
+
+	@Override
+	public void actualizar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.facturaRepository.actualizar(factura);
+	}
+
+	@Override
+	public int actualizarFechas(LocalDateTime fechaNueva, LocalDateTime fechaActual) {
+		// TODO Auto-generated method stub
+		return this.facturaRepository.actualizarFechas(fechaNueva, fechaActual);
+	}
+
+	@Override
+	public int eliminarPorNumero(String numero) {
+		// TODO Auto-generated method stub
+		return this.facturaRepository.eliminarPorNumero(numero);
+	}
+
+	@Override
+	public List<FacturaDTO> buscarFacturasDTO() {
+		// TODO Auto-generated method stub
+		return this.facturaRepository.seleccionarFacturasDTO();
+	}
+	
+
 
 }

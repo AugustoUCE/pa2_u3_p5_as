@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.demo.ventas.repository.modelo.Factura;
+import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
 
 public interface IFacturaService {
 	
@@ -28,5 +29,14 @@ public interface IFacturaService {
 	
 	public List<Factura>  buscarFacturaWhereJoin();
 	public List<Factura>  buscarFacturasFetchJoin(); 
+	
+	//
+	
+	public void actualizar(Factura factura);
+	public int actualizarFechas(LocalDateTime fechaNueva, LocalDateTime fechaActual);
+	public int eliminarPorNumero(String numero);
+	
+	//dto
+	public List<FacturaDTO> buscarFacturasDTO();
 
 }
