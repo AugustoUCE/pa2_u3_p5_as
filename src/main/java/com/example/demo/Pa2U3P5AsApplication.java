@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.example.demo.ventas.repository.modelo.Cliente;
 import com.example.demo.ventas.repository.modelo.DetalleFactura;
 import com.example.demo.ventas.repository.modelo.Factura;
 import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
+import com.example.demo.ventas.service.IClienteService;
 import com.example.demo.ventas.service.IFacturaService;
 
 @SpringBootApplication
@@ -20,32 +23,29 @@ public class Pa2U3P5AsApplication implements CommandLineRunner {
 	@Autowired
 	private IFacturaService facturaService;
 
+	@Autowired
+	private IClienteService clienteService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Pa2U3P5AsApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-/*
-		int cantidad =this.facturaService.actualizarFechas(
-				LocalDateTime.of(2020, 1, 15, 12, 50),
-				LocalDateTime.of(2024, 1, 25, 23, 59)
-				);
-		System.out.println("Cantidad de registros/filas actulizados: "+cantidad);
-		*/
-	/*	
-		int cantidad =this.facturaService.eliminarPorNumero("0001-02571");
-		System.out.println("Cantidad de registros/filas actulizados: "+cantidad);
-*/
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
 		
-		System.out.println("DTO");
-		List<FacturaDTO> list = this.facturaService.buscarFacturasDTO();
-		for (FacturaDTO facturaDTO : list) {
-			System.out.println(facturaDTO);
-		}
+		Factura fact = new Factura();
+		fact.setCedula("1478654578");
+		fact.setFecha(LocalDateTime.now());
+		fact.setNumero("0001-002");
 		
+		Cliente cl = new Cliente();
+		cl.setApellido(null);
+		cl.setNombre("augusto");
 		
+		this.facturaService.guardar(fact,cl);
+
+		//this.clienteService.guardar(null);
 		
 		
 		
