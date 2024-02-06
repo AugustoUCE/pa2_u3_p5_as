@@ -12,6 +12,8 @@ import com.example.demo.ventas.repository.IFacturaRepository;
 import com.example.demo.ventas.repository.modelo.Cliente;
 import com.example.demo.ventas.repository.modelo.Factura;
 import com.example.demo.ventas.repository.modelo.dto.FacturaDTO;
+
+import ch.qos.logback.core.subst.Token.Type;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
@@ -30,7 +32,7 @@ public class FacturaServiceImpl implements IFacturaService {
 	}
 
 	@Override
-	@Transactional(value =TxType.REQUIRED)
+	@Transactional(value =TxType.REQUIRES_NEW)
 	public void guardar(Factura factura,Cliente cliente) {
 		// TODO Auto-generated method stub
 		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
@@ -115,6 +117,24 @@ public class FacturaServiceImpl implements IFacturaService {
 	public List<FacturaDTO> buscarFacturasDTO() {
 		// TODO Auto-generated method stub
 		return this.facturaRepository.seleccionarFacturasDTO();
+	}
+//
+	
+	@Override
+	@Transactional(value = TxType.MANDATORY) //obliga a que desde donde se lo llama tenga una trnsaccion
+	//todo los metodos repository  van con mandatory se debe asegurar la integridad de los datos excepto los de select mas bien con not supported
+	public void prueb() {
+		// TODO Auto-generated method stub
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		System.out.println("Este metodo es de prueba");
+		System.out.println("prueba:"+TransactionSynchronizationManager.isActualTransactionActive());
+	}
+
+	@Override
+	@Transactional(value = TxType.NOT_SUPPORTED)
+	public void buscar() {
+		// TODO Auto-generated method stub
+		//SELECT
 	}
 	
 

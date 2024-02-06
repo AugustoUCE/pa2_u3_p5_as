@@ -43,10 +43,12 @@ public class Pa2U3P5AsApplication implements CommandLineRunner {
 		cl.setApellido(null);
 		cl.setNombre("augusto");
 		
-		this.facturaService.guardar(fact,cl);
+		//this.facturaService.guardar(fact,cl);
 
 		//this.clienteService.guardar(null);
 		
+		System.out.println("Main:"+TransactionSynchronizationManager.isActualTransactionActive());
+		this.facturaService.prueb();
 		
 		
 	}

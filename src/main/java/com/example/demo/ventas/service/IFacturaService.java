@@ -40,4 +40,8 @@ public interface IFacturaService {
 	//dto
 	public List<FacturaDTO> buscarFacturasDTO();
 
+	//transsac
+	
+	public void prueb();
+	public void buscar();
 }
