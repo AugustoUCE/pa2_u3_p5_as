@@ -44,4 +44,8 @@ public interface IFacturaService {
 	
 	public void prueb();
 	public void buscar();
+	public void pruebaSupports();
+	public void pruebaSupports2();
+	public void pruebaNever();
+	
 }

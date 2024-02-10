@@ -1,5 +1,6 @@
 package com.example.demo.ventas.repository.modelo;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="factura")
@@ -29,6 +31,9 @@ public class Factura {
 	private LocalDateTime fecha;
 	@Column(name="fact_cedula")
 	private String cedula;
+	
+	@Transient
+	private BigDecimal valorIva;
 	
 	@OneToMany(mappedBy ="factura" , cascade = CascadeType.ALL,fetch = FetchType.LAZY)//eager trae toda la informacion 
 	private List<DetalleFactura> detalleFacturas;

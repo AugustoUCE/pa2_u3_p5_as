@@ -1,5 +1,6 @@
 package com.example.demo.ventas.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class FacturaServiceImpl implements IFacturaService {
 	
 	@Autowired
 	private IClienteRepository clienteRepository;
+	
+	@Autowired
+	private IClienteService clienteService;
 	@Override
 	public Factura buscarPorNumero(String numero) {
 		// TODO Auto-generated method stub
@@ -121,10 +125,14 @@ public class FacturaServiceImpl implements IFacturaService {
 //
 	
 	@Override
-	@Transactional(value = TxType.MANDATORY) //obliga a que desde donde se lo llama tenga una trnsaccion
+	//@Transactional(value = TxType.MANDATORY) //obliga a que desde donde se lo llama tenga una trnsaccion
 	//todo los metodos repository  van con mandatory se debe asegurar la integridad de los datos excepto los de select mas bien con not supported
 	public void prueb() {
 		// TODO Auto-generated method stub
+		BigDecimal valor=new BigDecimal(100);
+		valor.multiply(new BigDecimal(0.2));
+				
+				
 		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
 		System.out.println("Este metodo es de prueba");
 		System.out.println("prueba:"+TransactionSynchronizationManager.isActualTransactionActive());
@@ -135,6 +143,29 @@ public class FacturaServiceImpl implements IFacturaService {
 	public void buscar() {
 		// TODO Auto-generated method stub
 		//SELECT
+	}
+
+	@Override
+	public void pruebaSupports() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba Factura supoorts: "+TransactionSynchronizationManager.isActualTransactionActive());
+		this.clienteService.pruebaSupports();
+	}
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void pruebaSupports2() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba Factura supoorts: "+TransactionSynchronizationManager.isActualTransactionActive());
+		this.clienteService.pruebaSupports();
+	}
+	
+	
+	@Override
+	@Transactional(value = TxType.NEVER)
+	public void pruebaNever() {
+		// TODO Auto-generated method stub
+		System.out.println("prueba Factura never: "+TransactionSynchronizationManager.isActualTransactionActive());
+		this.clienteService.pruebaNever();
 	}
 	
 

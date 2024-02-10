@@ -40,5 +40,7 @@ public interface IFacturaRepository {
 	
 	//dto
 	public List<FacturaDTO> seleccionarFacturasDTO();
+	//
+	public List<Factura> seleccionarTodos();
 
 }

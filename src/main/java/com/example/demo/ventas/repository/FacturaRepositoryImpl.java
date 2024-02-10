@@ -14,12 +14,45 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 @Repository
 @Transactional
 public class FacturaRepositoryImpl implements IFacturaRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+
+	@Override
+	@Transactional(value = TxType.MANDATORY)
+	public void insertar(Factura factura) {
+		// TODO Auto-generated method stub
+		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		this.entityManager.persist(factura);
+		
+	}
+	
+	@Override
+	@Transactional(value = TxType.MANDATORY)
+	public void actualizar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.entityManager.merge(factura);
+		
+	}
+	@Override
+	@Transactional(value = TxType.MANDATORY)
+	public Factura buscar(Integer id) {
+		// TODO Auto-generated method stub
+		return this.entityManager.find(Factura.class, id);
+	}
+
+	@Override
+	@Transactional(value = TxType.MANDATORY)
+	public void eliminar(Integer id) {
+		// TODO Auto-generated method stub
+		this.entityManager.remove(this.buscar(id));
+	}
+	
 	@Override
 	public Factura seleccionarPorNumero(String numero) {
 		// TODO Auto-generated method stub
@@ -32,14 +65,6 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		
 		
 		return fact;
-	}
-
-	@Override
-	public void insertar(Factura factura) {
-		// TODO Auto-generated method stub
-		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
-		this.entityManager.persist(factura);
-		
 	}
 
 	@Override
@@ -186,12 +211,7 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		return myQuery.getResultList();
 	}
 
-	@Override
-	public void actualizar(Factura factura) {
-		// TODO Auto-generated method stub
-		this.entityManager.merge(factura);
-		
-	}
+
 
 	@Override
 	public int actualizarFechas(LocalDateTime fechaNueva, LocalDateTime fechaActual) {
@@ -210,17 +230,7 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		
 	}
 
-	@Override
-	public Factura buscar(Integer id) {
-		// TODO Auto-generated method stub
-		return this.entityManager.find(Factura.class, id);
-	}
 
-	@Override
-	public void eliminar(Integer id) {
-		// TODO Auto-generated method stub
-		this.entityManager.remove(this.buscar(id));
-	}
 
 	@Override
 	public int eliminarPorNumero(String numero) {
@@ -241,6 +251,16 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		String jpql="SELECT NEW com.example.demo.ventas.repository.modelo.dto.FacturaDTO(f.numero,f.fecha) FROM Factura f";
 		TypedQuery<FacturaDTO> myQuery = this.entityManager.createQuery(jpql,FacturaDTO.class);
 		
+		
+		return myQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(value = TxType.NOT_SUPPORTED)
+	public List<Factura> seleccionarTodos() {
+		// TODO Auto-generated method stub
+		String jpql="SELECT f FROM Factura f";
+		TypedQuery<Factura> myQuery =this.entityManager.createQuery(jpql,Factura.class);
 		
 		return myQuery.getResultList();
 	}
