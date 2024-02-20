@@ -1,5 +1,7 @@
 package com.example.demo.ventas.service;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -20,12 +22,20 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public void guardar(Cliente cliente) {
 		// TODO Auto-generated method stub
-	try {
-		this.clienteRepository.insertar(cliente);
-	} catch (RuntimeException e) {
-		// TODO: handle exception
-		System.out.println("ERROR");
-	}
+		System.out.println("Nombre Hilo: " + Thread.currentThread().getName());
+		try {
+			this.clienteRepository.insertar(cliente);
+		/*	try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
+		} catch (RuntimeException e) {
+			// TODO: handle exception
+			System.out.println("ERROR");
+		}
 	}
 
 	@Override
@@ -33,7 +43,7 @@ public class ClienteServiceImpl implements IClienteService {
 	public void pruebaSupports() {
 		// TODO Auto-generated method stub
 		System.out.println("este es un metodo supports");
-		System.out.println("prueba supoorts: "+TransactionSynchronizationManager.isActualTransactionActive());
+		System.out.println("prueba supoorts: " + TransactionSynchronizationManager.isActualTransactionActive());
 	}
 
 	@Override
@@ -41,7 +51,7 @@ public class ClienteServiceImpl implements IClienteService {
 	public void pruebaNever() {
 		// TODO Auto-generated method stub
 		System.out.println("este es un metodo NEVER");
-		System.out.println("prueba NEVER: "+TransactionSynchronizationManager.isActualTransactionActive());
+		System.out.println("prueba NEVER: " + TransactionSynchronizationManager.isActualTransactionActive());
 	}
 
 }
